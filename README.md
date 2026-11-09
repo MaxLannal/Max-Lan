@@ -4,6 +4,9 @@ Personal Website
 The site of Max (Jinghan) Lan: a scroll-driven launch scene with a qubit field, then
 Projects (CollegeDeck, Archstone, Quarterly), Blogs, Resume and Contact.
 
+Live at **https://maxlannal.github.io/Max-Lan/**. Every push to `main` republishes `public/`
+(see `.github/workflows/pages.yml`).
+
 ## Run it locally
 
 ```bash
@@ -25,3 +28,10 @@ python3 server.py --set-password
 ```
 
 `admin.json` (the password hash) and `backups/` are listed in `.gitignore` and never committed.
+
+Editing and saving only work on this local server. On the published site, push your saved
+changes instead:
+
+```bash
+git add -A && git commit -m "Update site" && git push
+```
