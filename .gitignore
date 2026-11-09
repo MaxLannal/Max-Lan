@@ -1,0 +1,9 @@
+# Admin password hash and edit backups stay on this computer only
+admin.json
+admin.tmp
+backups/
+.index.html.saving
+
+# System files
+.DS_Store
+__pycache__/
