@@ -383,27 +383,41 @@
   }
   .project-url input:focus-visible { outline: 1.5px solid var(--focus); outline-offset: 1px; border-style: solid; }
 
-  /* An essay on Blogs: the title and length show; the text opens in place. */
-  .post-full { margin-top: 0.35em; }
-  .post-full summary {
-    display: inline-flex; align-items: center; gap: 12px; cursor: pointer; list-style: none;
-    padding: 4px 0;
-    font-family: "Mona Text", system-ui, sans-serif; font-size: 14px; letter-spacing: 0.04em;
-    color: var(--ink-quiet); transition: color 260ms ease;
+  /* Blogs: each essay is one row that opens the essay on its own page (essay.html). */
+  #blogs .page-list li.post { padding: 0; }
+  .post-link {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 10px 40px;
+    padding: 26px 0 28px; color: inherit; text-decoration: none;
   }
-  .post-full summary::-webkit-details-marker { display: none; }
-  .post-full summary::before {
-    content: ""; width: 18px; height: 1px; background: var(--limb);
-    box-shadow: 0 0 8px rgba(150, 190, 255, 0.9); transition: width 360ms cubic-bezier(.16,1,.3,1);
+  .post-text { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .page-list .post-title {
+    display: block; margin: 0; font-weight: 500; font-size: clamp(26px, 1.2vw + 13px, 34px);
+    line-height: 1.12; letter-spacing: -0.012em; color: var(--ink); transition: color 250ms ease, text-shadow 250ms ease;
   }
-  .post-full summary:hover, .post-full summary:focus-visible { color: var(--ink); }
-  .post-full summary:hover::before { width: 28px; }
-  .post-full summary:focus-visible { outline: 1.5px solid var(--focus); outline-offset: 3px; border-radius: 3px; }
-  .post-full .when-open, .post-full[open] .when-closed { display: none; }
-  .post-full[open] .when-open { display: inline; }
-  .page-list .post-body { margin-top: 1em; }
-  .page-list .post-body p { margin: 0 0 1em; font-size: clamp(18px, 0.45vw + 13px, 21px); }
-  .page-list .post-body p:last-child { margin-bottom: 0.4em; }
+  .post-teaser { font-size: clamp(17px, 0.4vw + 13px, 20px); line-height: 1.55; color: rgba(246, 248, 253, 0.72); }
+  .post-side { display: flex; align-items: center; gap: 22px; white-space: nowrap; }
+  .page-list .post-side .meta { margin: 0; }
+  .post-go {
+    display: inline-flex; align-items: center; padding: 10px 16px; border-radius: 999px;
+    border: 1px solid rgba(169, 198, 255, 0.45); background: rgba(120, 160, 255, 0.1);
+    font: 420 14px/1 "Mona Text", system-ui, sans-serif; letter-spacing: 0.03em; color: rgba(210, 225, 255, 0.98);
+    transition: background 250ms ease, border-color 250ms ease, transform 300ms cubic-bezier(.16,1,.3,1);
+  }
+  .post-link:hover .post-title, .post-link:focus-visible .post-title { color: #fff; text-shadow: 0 0 22px rgba(150, 190, 255, 0.45); }
+  .post-link:hover .post-go, .post-link:focus-visible .post-go { background: rgba(120, 160, 255, 0.24); border-color: rgba(190, 212, 255, 0.85); transform: translateX(4px); }
+  .post-link:focus-visible { outline: 1.5px solid var(--focus); outline-offset: 4px; border-radius: 6px; }
+  /* The essay's text lives here so it can be edited and saved; visitors read it on its own page. */
+  .page-list .post-body { display: none; }
+  body.is-editing .page-list .post-body { display: block; margin: 0 0 30px; padding-left: 18px; border-left: 1px solid rgba(169, 198, 255, 0.35); }
+  body.is-editing .page-list .post-body::before {
+    content: "Essay text, shown on its own page"; display: block; margin-bottom: 12px;
+    font: 420 12px/1 "Mona Text", system-ui, sans-serif; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-quiet);
+  }
+  .page-list .post-body p { margin: 0 0 1em; font-size: clamp(17px, 0.35vw + 13px, 19px); }
+  @media (max-width: 760px) {
+    .post-link { grid-template-columns: 1fr; }
+    .post-side { justify-content: space-between; }
+  }
   body.is-editing .affil [contenteditable], body.is-editing .menu [contenteditable], body.is-editing .mark [contenteditable] { outline-offset: 1px; }
 
   .admin {
@@ -683,9 +697,7 @@
       <p class="page-kicker" data-reveal-page=""><span data-edit="blogs-kicker">Blogs</span></p>
       <h2 id="blogs-title" data-reveal-page=""><span data-edit="blogs-title">Essays and thoughts.</span></h2>
       <ul class="page-list" data-reveal-page="">
-        <li class="post" id="blog-physics-and-cs"><strong data-edit="blogs-0-t">Why I transitioned into Physics and CS</strong><span class="meta" data-edit="blogs-0-m">Essay · 3 min read</span><details class="post-full"><summary><span class="when-closed">Read the essay</span><span class="when-open">Close the essay</span></summary><div class="post-body" data-edit="blogs-0-body" data-multi=""><p>Most who know me would tell you in shock of my transition. They’d recall that I was an active debater of Politics in high school, and studied history and economics rigorously. Back then I wanted to be an economist. I liked Hayek and Friedman. I admired Deng Xiaoping and Lee Kuan Yew. Within a year, however, I’ve pulled myself from a history student with little mathematics background to a Physics student participating in frontier labs at the university. Of course, I wouldn’t stop here.</p><p>I made the choice because I realized that economics and humanities lacked the real technical mastery and knowledge I needed to become a competent participant of the future. By that time, 2025, the first large language models were transitioning into autonomous agents. I cared about how these next-generation systems can be built. I admired how powerful they were, and I worried about the misuse of power that they may unleash, blocking self-realization with mass surveillance. I knew that Artificial Intelligence, as much as it empowers the individual to take on challenges, empowers existing authorities to tighten control and centralize power.</p><p>I knew I needed to change my perspectives of the world if I wished to brace myself for Black Swans in the future. There is no best way to do that other than to put my skin in the game: to learn and build frontier technologies by myself. To create my own autonomy and prosperity, and hence have the slightest chance of shaping the world, I was compelled to act.</p><p>By that time, I started to see my future in entrepreneurship, in using my own abilities and competence to create value that a part of society wanted. If I had the competence to establish my own business, I thought, I would no longer need to be coerced into working or complying to a large corporation. I would be less vulnerable to radical changes. I would have the negotiating power to deal with all the chaos of the world, and not have myself subject to the whim of others.</p><p>I started to sense this competence while building one of my initial AI projects, the Weimar Pendulum, a 90-minute history musical I directed in high school with the help of musical AI models. Despite having to manage 30 people and coordinate chaotic details and many breakdowns, I never sensed more freedom seeing it come to play. I sensed the empowerment to act — competence — and the power to stay faithful to my words.</p><p>To slay or be slain; he who has chosen the former has made peace with the latter. After that, I’ve set my mind: I pay the price for all that I choose to pursue and bear. I don’t demand anything from anyone around me. I will march on a journey to build technological excellence and use it to defend autonomy.</p><p>In competition and the discussion competence, there is no morality; there is only good or bad. Hence winners of many wars in the past were terrible rulers. But to have the basic entry into the game, I must get good, in technology, in physics, in AI.</p><p>And so I began — and up to now I’m on the path.</p></div></details></li>
-        <li><strong data-edit="blogs-1-t">Essay title</strong><span class="meta" data-edit="blogs-1-m">Month Year · 4 min read</span><p data-edit="blogs-1-d">A one-line summary of the idea the essay works through.</p></li>
-        <li><strong data-edit="blogs-2-t">Essay title</strong><span class="meta" data-edit="blogs-2-m">Month Year · 8 min read</span><p data-edit="blogs-2-d">A one-line summary of the idea the essay works through.</p></li>
+        <li class="post" id="blog-physics-and-cs"><a class="post-link" href="essay.html?e=physics-and-cs"><span class="post-text"><strong class="post-title" data-edit="blogs-0-t">Why I transitioned into Physics and CS</strong><span class="post-teaser" data-edit="blogs-0-d">A conception of what would sustain me in life.</span></span><span class="post-side"><span class="meta" data-edit="blogs-0-m">Essay · 3 min read</span><span class="post-go" aria-hidden="true">Read →</span></span></a><div class="post-body" data-edit="blogs-0-body" data-multi=""><p>Most who know me would tell you in shock of my transition. They’d recall that I was an active debater of Politics in high school, and studied history and economics rigorously. Back then I wanted to be an economist. I liked Hayek and Friedman. I admired Deng Xiaoping and Lee Kuan Yew. Within a year, however, I’ve pulled myself from a history student with little mathematics background to a Physics student participating in frontier labs at the university. Of course, I wouldn’t stop here.</p><p>I made the choice because I realized that economics and humanities lacked the real technical mastery and knowledge I needed to become a competent participant of the future. By that time, 2025, the first large language models were transitioning into autonomous agents. I cared about how these next-generation systems can be built. I admired how powerful they were, and I worried about the misuse of power that they may unleash, blocking self-realization with mass surveillance. I knew that Artificial Intelligence, as much as it empowers the individual to take on challenges, empowers existing authorities to tighten control and centralize power.</p><p>I knew I needed to change my perspectives of the world if I wished to brace myself for Black Swans in the future. There is no best way to do that other than to put my skin in the game: to learn and build frontier technologies by myself. To create my own autonomy and prosperity, and hence have the slightest chance of shaping the world, I was compelled to act.</p><p>By that time, I started to see my future in entrepreneurship, in using my own abilities and competence to create value that a part of society wanted. If I had the competence to establish my own business, I thought, I would no longer need to be coerced into working or complying to a large corporation. I would be less vulnerable to radical changes. I would have the negotiating power to deal with all the chaos of the world, and not have myself subject to the whim of others.</p><p>I started to sense this competence while building one of my initial AI projects, the Weimar Pendulum, a 90-minute history musical I directed in high school with the help of musical AI models. Despite having to manage 30 people and coordinate chaotic details and many breakdowns, I never sensed more freedom seeing it come to play. I sensed the empowerment to act — competence — and the power to stay faithful to my words.</p><p>To slay or be slain; he who has chosen the former has made peace with the latter. After that, I’ve set my mind: I pay the price for all that I choose to pursue and bear. I don’t demand anything from anyone around me. I will march on a journey to build technological excellence and use it to defend autonomy.</p><p>In competition and the discussion competence, there is no morality; there is only good or bad. Hence winners of many wars in the past were terrible rulers. But to have the basic entry into the game, I must get good, in technology, in physics, in AI.</p><p>And so I began — and up to now I’m on the path.</p></div></li>
       </ul>
     </div>
   </section>
@@ -2148,7 +2160,7 @@ void main(){
     ul.className = "menu-sub";
     for (const post of posts) {
       const li = document.createElement("li"), a = document.createElement("a");
-      a.href = "#" + post.id;
+      a.href = post.querySelector("a.post-link")?.getAttribute("href") || "#" + post.id;   // the essay's own page
       a.textContent = post.querySelector("strong")?.textContent.trim() || "Essay";
       li.append(a); ul.append(li);
     }
@@ -2211,8 +2223,9 @@ void main(){
   miniName.addEventListener("click", e => { e.preventDefault(); setMini(false); goTo(0, "#launch"); });
   miniPanel.addEventListener("click", e => {
     const a = e.target.closest("a"); if (!a) return;
-    e.preventDefault(); setMini(false);
     const href = a.getAttribute("href");
+    if (!href.startsWith("#")) { setMini(false); return; }   // an essay's own page opens normally
+    e.preventDefault(); setMini(false);
     if (href === "#self-introduction") goTo(INTRO_AT, href);
     else { const t = document.querySelector(href); if (t) { const d = t.querySelector && t.querySelector("details.post-full"); if (d) d.open = true; t.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" }); history.replaceState(null, "", href); } }
   });
@@ -2229,7 +2242,8 @@ void main(){
   document.querySelectorAll(".page").forEach(pg => seen.observe(pg));
   menu.addEventListener("click", e => {
     const a = e.target.closest && e.target.closest("a");
-    if (!a || a.getAttribute("href") === "#self-introduction") return;
+    const href = a && a.getAttribute("href");
+    if (!href || !href.startsWith("#") || href === "#self-introduction") return;   // essay pages open normally
     const t = document.querySelector(a.getAttribute("href"));
     if (!t || editing) return;
     e.preventDefault();
