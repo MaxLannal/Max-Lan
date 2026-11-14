@@ -67,6 +67,12 @@
   }
   .essay-body p.is-seen { opacity: 1; transform: none; }
   .essay-body p.is-here { color: var(--ink); }
+  /* The sign-off: the author's name and the date, set to the right at the end. */
+  .essay-sign { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; margin-top: 2.4em; text-align: right; }
+  .essay-sign[hidden] { display: none; }
+  .essay-sign::before { content: ""; width: 40px; height: 1px; margin-bottom: 14px; background: var(--limb); box-shadow: 0 0 10px rgba(150, 190, 255, 0.9); }
+  .sign-name { font-style: italic; font-size: clamp(21px, 0.6vw + 15px, 25px); color: var(--ink); }
+  .sign-date { font: 420 13px/1 "Mona Text", system-ui, sans-serif; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-quiet); }
   .essay-end { margin-top: clamp(72px, 13vh, 130px); display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
   .essay-end .next { color: var(--ink); text-decoration: none; font-size: clamp(22px, 1vw + 14px, 28px); }
   .essay-end .next span { display: block; margin-bottom: 8px; font: 420 12px/1 "Mona Text", system-ui, sans-serif; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-quiet); }
@@ -89,6 +95,7 @@
     <p class="essay-subtitle" id="essay-subtitle"></p>
     <p class="essay-meta" id="essay-meta"></p>
     <div class="essay-body" id="essay-body"></div>
+    <footer class="essay-sign" id="essay-sign" hidden><span class="sign-name"></span><span class="sign-date"></span></footer>
     <noscript><p class="essay-missing">This page needs JavaScript to show the essay. <a href="index.html#blogs" style="color:inherit">Back to Blogs</a>.</p></noscript>
     <nav class="essay-end" id="essay-end" aria-label="More essays"></nav>
   </article>
@@ -130,6 +137,14 @@
       document.title = `${title} · Max (Jinghan) Lan`;
       const paras = [...post.querySelectorAll(".post-body p")].map(p => p.textContent.trim()).filter(Boolean);
       body.replaceChildren(...paras.map(t => { const p = document.createElement("p"); p.textContent = t; return p; }));
+      // the sign-off, if the essay has one
+      const signName = post.querySelector('[data-edit$="-sign"]')?.textContent.trim(), signDate = post.querySelector('.post-sign [data-edit$="-date"]')?.textContent.trim();
+      if (signName || signDate) {
+        const sign = $("essay-sign");
+        sign.querySelector(".sign-name").textContent = signName || "";
+        sign.querySelector(".sign-date").textContent = signDate || "";
+        sign.hidden = false;
+      }
 
       const end = $("essay-end"), next = posts[i + 1];
       if (next) {
