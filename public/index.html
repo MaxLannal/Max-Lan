@@ -191,8 +191,8 @@
     transform: translateY(var(--intro-shift, -50%));
     display: grid;
     grid-template-columns: max-content minmax(0, 46rem);   /* text column: as wide as the space beside the photo allows, up to 46rem */
-    grid-template-areas: "side lead" "side body";
-    grid-template-rows: auto 1fr;
+    grid-template-areas: "side lead" "side body" "side seek";
+    grid-template-rows: auto auto 1fr;
     column-gap: var(--intro-gap, 56px);
     justify-content: start;
     align-items: start;
@@ -264,6 +264,25 @@
     color: rgba(246, 248, 253, 0.93);
   }
   .intro-body p:last-child { margin-bottom: 0; }
+  /* What I'm looking for: highlighted under the bio. */
+  .intro-seeking {
+    grid-area: seek; align-self: start; justify-self: start;
+    display: flex; align-items: baseline; gap: 14px;
+    margin: 1.4em 0 0; padding: 14px 20px 14px 18px; max-width: 100%;
+    border-left: 2px solid var(--limb); border-radius: 0 14px 14px 0;
+    background: linear-gradient(90deg, rgba(120, 160, 255, 0.2), rgba(120, 160, 255, 0.05));
+    box-shadow: -8px 0 22px -12px rgba(150, 190, 255, 0.9);
+    font-size: calc(clamp(18px, 0.45vw + 13px, 21px) * var(--intro-scale, 1)); line-height: 1.5; font-weight: 500;
+    color: var(--ink); text-shadow: 0 0 18px rgba(140, 180, 255, 0.35);
+  }
+  .intro-seeking::before {
+    content: ""; flex: none; width: 8px; height: 8px; border-radius: 50%; transform: translateY(-2px);
+    background: #9fd0ff; box-shadow: 0 0 0 0 rgba(159, 208, 255, 0.7);
+    animation: seeking-pulse 2.6s ease-out infinite;
+  }
+  @keyframes seeking-pulse { 0% { box-shadow: 0 0 0 0 rgba(159, 208, 255, 0.7); } 70%, 100% { box-shadow: 0 0 0 10px rgba(159, 208, 255, 0); } }
+  @media (prefers-reduced-motion: reduce) { .intro-seeking::before { animation: none; } }
+  .intro[data-layout="phone"] .intro-seeking { margin-top: 16px; padding: 12px 16px 12px 14px; font-size: 15.5px; }
   .intro.is-scroll {
     max-height: var(--intro-max);
     overflow-y: auto;
@@ -469,8 +488,8 @@
 
   .intro[data-layout="phone"] {
     grid-template-columns: auto minmax(0, 1fr);
-    grid-template-areas: "avatar lead" "avatar affil" "body body" "links links";
-    grid-template-rows: auto auto auto auto;
+    grid-template-areas: "avatar lead" "avatar affil" "body body" "seek seek" "links links";
+    grid-template-rows: auto auto auto auto auto;
     column-gap: 16px;
   }
   .intro[data-layout="phone"] .intro-side { display: contents; }
@@ -650,6 +669,7 @@
         </div>
         <h2 class="intro-lead" id="intro-lead" data-reveal="1" data-edit="lead">Hello, I’m Max.</h2>
         <div class="intro-body" data-edit="body"><p data-reveal="2.00">Great to see you, I am Max. My legal name is Jinghan Lan (兰景涵). I study at the University of Chicago as an undergraduate and major in Computer Science and Physics. I’m a member of the Existential Risk Laboratory (XLab) and Quantum Society, where I concentrate in AI security and Quantum Computing.</p><p data-reveal="2.80">I enjoy building products that tackle specific issues in people’s lives. Some of my projects include <a class="project-link" href="#project-collegedeck">CollegeDeck</a>, an AI-agent-powered interface for autonomous college applications, <a class="project-link" href="#project-archstone">Archstone</a>, an alumni map website for resource connection, and <a class="project-link" href="#project-quarterly">Quarterly</a>, a personal agent at UChicago that helps students handle logistics and planning.</p><p data-reveal="3.60">Some fields that I wish to participate in the future include AI security, world models, physical AI, and quantum computing.</p><p data-reveal="4.40">If you want to hear more about my story, you are welcome to check my blog posts.</p></div>
+        <p class="intro-seeking" data-reveal="4.90"><span data-edit="seeking">Looking for positions in SWE, Quantum, and Physical AI in startups, research, and beyond.</span></p>
       </article>
     </div>
   </section>
